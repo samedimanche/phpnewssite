@@ -5,9 +5,11 @@ include_once 'includes/news.php';
 if (isset($_GET['id'])) {
     $newsId = $_GET['id'];
     $newsObj = new News($db);
+    // Increment the view count and get the new count
+    $newsObj->incrementViewCount($newsId);
+    // Fetch the news data
     $news = $newsObj->getNewsById($newsId);
     $similarNews = $newsObj->getSimilarNews($newsId);
-    $newsObj->incrementViewCount($newsId);
 }
 ?>
 
