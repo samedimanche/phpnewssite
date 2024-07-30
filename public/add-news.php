@@ -9,19 +9,13 @@ $categories = Category::getAllCategories($db);
 $authors = Author::getAllAuthors($db);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = $_POST['title'];
-    $announcement = $_POST['announcement'];
-    $detailedText = $_POST['detailed_text'];
-    $categoryId = $_POST['category'];
-    $authorId = $_POST['author'];
-    $similarNewsIds = $_POST['similar_news'] ?? [];
-
-    $errors = $newsObj->validateNewsForm($title, $announcement, $detailedText, $categoryId, $authorId);
-
-    if (empty($errors)) {
-        $newsObj->addNews($title, $announcement, $detailedText, $categoryId, $authorId, $similarNewsIds);
+    $result = $newsObj->processNewsForm($_POST);
+    
+    if ($result === true) {
         header('Location: index.php');
         exit();
+    } else {
+        $errors = $result;
     }
 }
 ?>
